@@ -14,7 +14,6 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-VTHQ6Z8WC8'); 
     </script>
 
@@ -22,11 +21,10 @@
         :root {
             --bg: #050202;
             --marte-orange: #ff5500;
-            --marte-rust: #8a2be2; 
             --text: #ffffff;
             --text-dim: #ffccb3;
-            --glass: rgba(20, 10, 10, 0.65); /* Leggermente più opaco per leggibilità */
-            --border: rgba(255, 85, 0, 0.3);
+            --glass: rgba(20, 10, 10, 0.7);
+            --border: rgba(255, 85, 0, 0.4);
         }
 
         body {
@@ -34,41 +32,49 @@
             color: var(--text);
             font-family: 'Rajdhani', sans-serif;
             margin: 0;
-            min-height: 100vh; /* Permette lo scroll se serve */
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            /* Su mobile permette lo scroll, su desktop no se ci sta tutto */
             overflow-x: hidden;
-            overflow-y: auto; 
+            overflow-y: auto;
         }
 
-        /* SFONDO MARZIANO */
+        /* SFONDO MARZIANO (FIXATO) */
         .planet-bg {
-            position: fixed; /* Fisso anche se scrolli */
+            position: fixed; /* Fisso sullo schermo */
             top: 0; left: 0; width: 100%; height: 100%;
+            /* Nuova immagine Marte più luminosa */
             background-image: url('https://images.unsplash.com/photo-1614728853975-69c960f7274f?q=80&w=1920');
             background-size: cover;
             background-position: center;
-            z-index: -2;
-            filter: brightness(0.6) contrast(1.1);
+            z-index: 0; /* Livello base */
         }
         
+        /* Overlay per scurire leggermente e rendere leggibile il testo */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, transparent 0%, #000 90%);
-            z-index: -1;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.9) 100%);
+            z-index: 1; /* Sopra l'immagine */
             pointer-events: none;
+        }
+
+        /* CONTENUTO (Sopra tutto) */
+        .content-wrapper {
+            position: relative;
+            z-index: 2; /* Sopra sfondo e overlay */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* TITOLO HUB */
         .hub-title {
             text-align: center;
-            margin: 4rem 0 3rem 0; /* Margine superiore per mobile */
-            z-index: 10;
-            position: relative;
+            margin: 4rem 0 3rem 0;
             padding: 0 20px;
         }
         .hub-title h1 {
@@ -80,7 +86,7 @@
             background: linear-gradient(to bottom, #fff 0%, var(--marte-orange) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(255, 85, 0, 0.6);
+            text-shadow: 0 0 30px rgba(255, 85, 0, 0.8); /* Glow più forte */
             line-height: 1;
         }
         .hub-title p {
@@ -92,16 +98,14 @@
             font-weight: 700;
         }
 
-        /* GRIGLIA PORTALI OTTIMIZZATA */
+        /* GRIGLIA PORTALI */
         .portal-grid {
             display: grid;
-            /* Desktop: 3 Colonne per 6 elementi */
             grid-template-columns: repeat(3, 1fr); 
             gap: 1.5rem;
             max-width: 1200px;
             width: 90%;
-            z-index: 10;
-            margin-bottom: 4rem; /* Spazio per il footer */
+            margin-bottom: 4rem;
         }
 
         /* CARD DEL SITO */
@@ -112,33 +116,136 @@
             border-radius: 8px;
             text-decoration: none;
             color: var(--text);
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            min-height: 100px; /* Altezza minima uniforme */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            min-height: 100px;
         }
 
-        /* Effetto Scanline Arancione */
-        .portal-card::after {
-            content: '';
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 85, 0, 0.2), transparent);
-            transform: translateX(-100%);
-            transition: 0.5s;
-        }
-
+        /* Effetto Hover Arancione */
         .portal-card:hover {
             transform: translateY(-5px);
             border-color: var(--marte-orange);
-            box-shadow: 0 0 25px rgba(255, 85, 0, 0.3), inset 0 0 10px rgba(255, 85, 0, 0.1);
+            background: rgba(40, 20, 20, 0.9);
+            box-shadow: 0 0 25px rgba(255, 85, 0, 0.4);
         }
 
-        .portal-card:hover::after { transform: translateX(100%); }
-
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .card-title { font
+        .card-title { font-family: 'Orbitron'; font-size: 1.3rem; margin: 0; text-transform: uppercase; font-weight: bold; }
+        .card-icon { color: var(--marte-orange); font-size: 1.2rem; transition: 0.3s; }
+        .portal-card:hover .card-icon { transform: scale(1.2); text-shadow: 0 0 10px var(--marte-orange); }
+        
+        .card-desc { 
+            font-size: 0.85rem; 
+            color: var(--text-dim); 
+            font-weight: 300; 
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+        }
+
+        /* FOOTER */
+        .system-status {
+            margin-bottom: 20px;
+            font-size: 0.7rem; color: #aaa; letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .system-status span { color: var(--marte-orange); }
+
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 1024px) {
+            .portal-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .hub-title h1 { font-size: 2.5rem; letter-spacing: 4px; }
+            .portal-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .portal-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="planet-bg"></div>
+    <div class="overlay"></div>
+
+    <div class="content-wrapper">
+        
+        <div class="hub-title">
+            <h1>Marte Hub</h1>
+            <p>System Nexus</p>
+        </div>
+
+        <div class="portal-grid">
+            
+            <a href="https://msh.martestudios.com" class="portal-card" onclick="trackClick('MSH')">
+                <div class="card-header">
+                    <div class="card-title">MSH</div>
+                    <i class="fas fa-globe-americas card-icon"></i>
+                </div>
+                <div class="card-desc">Intelligence & Geopolitical News</div>
+            </a>
+
+            <a href="https://ilsottobosco.martestudios.com" class="portal-card" onclick="trackClick('Sottobosco')">
+                <div class="card-header">
+                    <div class="card-title">Sottobosco</div>
+                    <i class="fas fa-microphone-alt card-icon"></i>
+                </div>
+                <div class="card-desc">Podcast & Cultural Roots</div>
+            </a>
+
+            <a href="https://velvet.martestudios.com" class="portal-card" onclick="trackClick('Velvet')">
+                <div class="card-header">
+                    <div class="card-title">Velvet</div>
+                    <i class="fas fa-record-vinyl card-icon"></i>
+                </div>
+                <div class="card-desc">Cinema & Sound Magazine</div>
+            </a>
+
+            <a href="https://mff.martestudios.com" class="portal-card" onclick="trackClick('MFF')">
+                <div class="card-header">
+                    <div class="card-title">MFF</div>
+                    <i class="fas fa-ticket-alt card-icon"></i>
+                </div>
+                <div class="card-desc">Marte Film Festival & Awards</div>
+            </a>
+
+            <a href="https://agency.martestudios.com" class="portal-card" onclick="trackClick('Agency')">
+                <div class="card-header">
+                    <div class="card-title">Agency</div>
+                    <i class="fas fa-laptop-code card-icon"></i>
+                </div>
+                <div class="card-desc">Marketing & Web Development</div>
+            </a>
+
+            <a href="https://martestudios.com" class="portal-card" onclick="trackClick('Studios')">
+                <div class="card-header">
+                    <div class="card-title">Studios</div>
+                    <i class="fas fa-video card-icon"></i>
+                </div>
+                <div class="card-desc">Corporate & Production House</div>
+            </a>
+
+        </div>
+
+        <div class="system-status">
+            Location: <span>Orbit</span> • Analytics: <span>Active</span>
+        </div>
+    </div>
+
+    <script>
+        function trackClick(destination) {
+            gtag('event', 'hub_exit_click', {
+                'event_category': 'Navigation',
+                'event_label': destination,
+                'transport_type': 'beacon'
+            });
+        }
+    </script>
+
+</body>
+</html>
