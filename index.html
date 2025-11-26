@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marte Hub | Central Command</title>
+    <meta name="description" content="Il punto di accesso all'ecosistema Marte Studios.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500&display=swap" rel="stylesheet">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-XXXXXXXXXX'); // Sostituisci anche qui
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0d12;
+            --accent: #00f0ff; /* Ciano Cyberpunk */
+            --text: #e0e0e0;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231f2329' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* TITOLO HUB */
+        .hub-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            z-index: 10;
+        }
+        .hub-title h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            margin: 0;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+        .hub-title p {
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            opacity: 0.7;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        /* GRIGLIA PORTALI */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 900px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        /* CARD DEL SITO */
+        .portal-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15);
+        }
+
+        .portal-card:hover::before { transform: translateX(100%); }
+
+        .card-icon { font-size: 2rem; margin-bottom: 1rem; color: var(--accent); }
+        .card-title { font-family: 'Orbitron'; font-size: 1.5rem; margin: 0; text-transform: uppercase; }
+        .card-desc { font-size: 0.9rem; margin-top: 10px; opacity: 0.6; }
+
+        /* ANALYTICS TRACKING HELPER */
+        /* Questo script invia un evento speciale quando clicchi */
+        
+        /* FOOTER */
+        .system-status {
+            position: absolute; bottom: 20px;
+            font-size: 0.7rem; color: #555; letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .portal-grid { grid-template-columns: 1fr; }
+            .hub-title h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hub-title">
+        <h1>Marte Hub</h1>
+        <p>Ecosystem Nexus</p>
+    </div>
+
+    <div class="portal-grid">
+        
+        <a href="https://msh.martestudios.com" class="portal-card" onclick="trackClick('MSH')">
+            <div class="card-title">MSH</div>
+            <div class="card-desc">Sports & Entertainment News</div>
+        </a>
+
+        <a href="https://ilsottobosco.martestudios.com" class="portal-card" onclick="trackClick('Sottobosco')">
+            <div class="card-title">Il Sottobosco</div>
+            <div class="card-desc">Podcast & Cultural Roots</div>
+        </a>
+
+        <a href="https://velvet.martestudios.com" class="portal-card" onclick="trackClick('Velvet')">
+            <div class="card-title">Marte Velvet</div>
+            <div class="card-desc">Cinema & Sound Magazine</div>
+        </a>
+
+        <a href="https://martestudios.com" class="portal-card" onclick="trackClick('Studios')">
+            <div class="card-title">Marte Studios</div>
+            <div class="card-desc">Corporate & Production</div>
+        </a>
+
+    </div>
+
+    <div class="system-status">
+        SYSTEM: ONLINE • ANALYTICS: ACTIVE • V.1.0
+    </div>
+
+    <script>
+        // Funzione per inviare dati precisi a Google Analytics
+        function trackClick(destination) {
+            gtag('event', 'hub_exit_click', {
+                'event_category': 'Navigation',
+                'event_label': destination,
+                'transport_type': 'beacon'
+            });
+        }
+    </script>
+
+</body>
+</html>
